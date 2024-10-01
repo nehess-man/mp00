@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->btnChiff->hide();
     ui->btnDchiff->hide();
+    ui->btnHash->hide();
     ui->btnRetour->hide();
 
     // Feuille de style pour le bouton Retour avec hover en rouge
@@ -25,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnAES, &QPushButton::clicked, this, &MainWindow::handleAESButtonClicked);
     connect(ui->btnRSA, &QPushButton::clicked, this, &MainWindow::handleRSAButtonClicked);
 
+    connect(ui->btnHash, &QPushButton::clicked, this, &MainWindow::onHashButtonClicked);
     connect(ui->btnChiff, &QPushButton::clicked, this, &MainWindow::onEncryptionButtonClicked);
     connect(ui->btnDchiff, &QPushButton::clicked, this, &MainWindow::onDecryptionButtonClicked);
 
@@ -38,8 +40,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::handleSHAButtonClicked()
 {
-    ui->btnChiff->show();
-    ui->btnDchiff->show();
+    ui->btnHash->show();
     ui->btnRetour->show();
     ui->btnAES->setEnabled(false);
     ui->btnRSA->setEnabled(false);
@@ -63,6 +64,12 @@ void MainWindow::handleRSAButtonClicked()
     ui->btnAES->setEnabled(false);
 }
 
+void MainWindow::onHashButtonClicked()
+{
+    ouvrirFichier();
+}
+
+
 void MainWindow::onEncryptionButtonClicked()
 {
     ouvrirFichier();
@@ -75,6 +82,7 @@ void MainWindow::onDecryptionButtonClicked()
 
 void MainWindow::onRetourButtonClicked()
 {
+    ui->btnHash->hide();
     ui->btnChiff->hide();
     ui->btnDchiff->hide();
     ui->btnRetour->hide();
@@ -86,7 +94,7 @@ void MainWindow::onRetourButtonClicked()
 
 void MainWindow::ouvrirFichier()
 {
-    QString myOpenFile = QFileDialog::getOpenFileName(this, tr("Choisir et Ouvrir un fichier"), tr("C:\\"), tr("Text Files (*.txt)"));
+    QString myOpenFile = QFileDialog::getOpenFileName(this, tr("Choisir et Ouvrir un fichier"), tr("C:\\"), tr("Text Files (*/*)"));
 
     if (myOpenFile.isEmpty())
     {

@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QTextStream>
 
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -26,6 +27,7 @@ private slots:
     void handleRSAButtonClicked();
     void onEncryptionButtonClicked();
     void onDecryptionButtonClicked();
+    void onHashButtonClicked();
     void onRetourButtonClicked();
 
 private:
