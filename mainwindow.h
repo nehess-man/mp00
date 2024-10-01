@@ -21,15 +21,15 @@ public:
     ~MainWindow();
 
 private slots:
-    void onFileOpenButtonClicked();    // Slot pour le bouton d'ouverture de fichier
-    void handleSHAButtonClicked();      // Slot pour le bouton SHA
-    void handleAESButtonClicked();      // Slot pour le bouton AES
-    void handleRSAButtonClicked();      // Slot pour le bouton RSA
-    void onEncryptionButtonClicked();    // Slot pour le bouton Chiffrement
+    void handleSHAButtonClicked();
+    void handleAESButtonClicked();
+    void handleRSAButtonClicked();
+    void onEncryptionButtonClicked();
+    void onDecryptionButtonClicked();
+    void onRetourButtonClicked();
 
 private:
     Ui::MainWindow *ui;
-    void ouvrirFichier();               // Méthode pour ouvrir un fichier
+    void ouvrirFichier();
 };
-
 #endif // MAINWINDOW_H

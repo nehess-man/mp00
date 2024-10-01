@@ -7,20 +7,28 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // Cacher les boutons Chiffrement et Déchiffrement au départ
     ui->btnChiff->hide();
     ui->btnDchiff->hide();
+    ui->btnRetour->hide();
 
-    // Connecter le bouton pour ouvrir un fichier (ajoute ce bouton dans ton UI si ce n'est pas fait)
-    connect(ui->btnDoss, &QPushButton::clicked, this, &MainWindow::ouvrirFichier);
+    // Feuille de style pour le bouton Retour avec hover en rouge
+    ui->btnRetour->setStyleSheet("QPushButton {"
+                                 "background-color: lightgray;"
+                                 "border: 1px solid black;"
+                                 "}"
+                                 "QPushButton:hover {"
+                                 "background-color: red;"
+                                 "color: white;"
+                                 "}");
 
-    // Connecter les boutons de sélection
     connect(ui->btnSHA, &QPushButton::clicked, this, &MainWindow::handleSHAButtonClicked);
     connect(ui->btnAES, &QPushButton::clicked, this, &MainWindow::handleAESButtonClicked);
     connect(ui->btnRSA, &QPushButton::clicked, this, &MainWindow::handleRSAButtonClicked);
 
-    // Connecter le bouton Chiffrement à la méthode
     connect(ui->btnChiff, &QPushButton::clicked, this, &MainWindow::onEncryptionButtonClicked);
+    connect(ui->btnDchiff, &QPushButton::clicked, this, &MainWindow::onDecryptionButtonClicked);
+
+    connect(ui->btnRetour, &QPushButton::clicked, this, &MainWindow::onRetourButtonClicked);
 }
 
 MainWindow::~MainWindow()
@@ -28,49 +36,54 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-// Slot pour le bouton d'ouverture de fichier
-void MainWindow::onFileOpenButtonClicked()
-{
-    ouvrirFichier();
-}
-
-// Slot pour le bouton SHA
 void MainWindow::handleSHAButtonClicked()
 {
     ui->btnChiff->show();
     ui->btnDchiff->show();
-
+    ui->btnRetour->show();
     ui->btnAES->setEnabled(false);
     ui->btnRSA->setEnabled(false);
 }
 
-// Slot pour le bouton AES
 void MainWindow::handleAESButtonClicked()
 {
     ui->btnChiff->show();
     ui->btnDchiff->show();
-
+    ui->btnRetour->show();
     ui->btnSHA->setEnabled(false);
     ui->btnRSA->setEnabled(false);
 }
 
-// Slot pour le bouton RSA
 void MainWindow::handleRSAButtonClicked()
 {
     ui->btnChiff->show();
     ui->btnDchiff->show();
-
+    ui->btnRetour->show();
     ui->btnSHA->setEnabled(false);
     ui->btnAES->setEnabled(false);
 }
 
-// Slot pour le bouton Chiffrement
 void MainWindow::onEncryptionButtonClicked()
 {
     ouvrirFichier();
 }
 
-// Fonction pour ouvrir un fichier
+void MainWindow::onDecryptionButtonClicked()
+{
+    ouvrirFichier();
+}
+
+void MainWindow::onRetourButtonClicked()
+{
+    ui->btnChiff->hide();
+    ui->btnDchiff->hide();
+    ui->btnRetour->hide();
+
+    ui->btnSHA->setEnabled(true);
+    ui->btnAES->setEnabled(true);
+    ui->btnRSA->setEnabled(true);
+}
+
 void MainWindow::ouvrirFichier()
 {
     QString myOpenFile = QFileDialog::getOpenFileName(this, tr("Choisir et Ouvrir un fichier"), tr("C:\\"), tr("Text Files (*.txt)"));

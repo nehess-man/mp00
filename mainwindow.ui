@@ -63,7 +63,27 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="btnRetour">
+       <property name="text">
+        <string>Retour</string>
+       </property>
+      </widget>
+     </item>
     </layout>
+   </widget>
+   <widget class="QLabel" name="labelFileContent">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>50</y>
+      <width>641</width>
+      <height>271</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
