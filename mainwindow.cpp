@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "HashGestion.h"
+#include "AesGestion."
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,15 +14,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->btnHash->hide();
     ui->btnRetour->hide();
 
-    // Feuille de style pour le bouton Retour avec hover en rouge
     ui->btnRetour->setStyleSheet("QPushButton {"
                                  "background-color: lightgray;"
-                                 "border: 1px solid black;"
-                                 "}"
+                                 "border: 1px solid black;}"
                                  "QPushButton:hover {"
                                  "background-color: red;"
-                                 "color: white;"
-                                 "}");
+                                 "color: white;}");
 
     connect(ui->btnSHA, &QPushButton::clicked, this, &MainWindow::handleSHAButtonClicked);
     connect(ui->btnAES, &QPushButton::clicked, this, &MainWindow::handleAESButtonClicked);
@@ -66,13 +65,28 @@ void MainWindow::handleRSAButtonClicked()
 
 void MainWindow::onHashButtonClicked()
 {
-    ouvrirFichier();
-}
+    QString myOpenFile = QFileDialog::getOpenFileName(this, tr("Choisir un fichier à hacher"), tr("C:\\"), tr("Text Files (*.*)"));
 
+    if (!myOpenFile.isEmpty())
+    {
+        QByteArray ba = myOpenFile.toLocal8Bit();
+        const char *filePath = ba.data();
+        HashGestion monSha;
+        std::cout<< monSha.CalculateFileSHA256(filePath) << std::endl;
+    }
+}
 
 void MainWindow::onEncryptionButtonClicked()
 {
-    ouvrirFichier();
+    /*ouvrirFichier();*/
+     QString myOpenFile = QFileDialog::getOpenFileName(this, tr("Choisir un fichier à chiffrer"), tr("C:\\"), tr("Text Files (*.*)"));
+    if (!myOpenFile.isEmpty())
+    {
+        QByteArray ba = myOpenFile.toLocal8Bit();
+        const char *filePath = ba.data();
+        AesGestion monAes;
+        std::cout<< monAes.encrypt_aes256_to_base64(filePath) << std::endl;
+    }
 }
 
 void MainWindow::onDecryptionButtonClicked()
@@ -91,6 +105,7 @@ void MainWindow::onRetourButtonClicked()
     ui->btnAES->setEnabled(true);
     ui->btnRSA->setEnabled(true);
 }
+
 
 void MainWindow::ouvrirFichier()
 {
