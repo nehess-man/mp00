@@ -95,7 +95,8 @@ void MainWindow::onEncryptionButtonClicked()
         AesGestion aes;
         aes.GenerateAESKey();
         aes.SaveAESKeyToFile("aes_random.bin");
-        aes.EncryptFileAES256("test.txt", "testencrypt.crypt");
+        aes.EncryptFileAES256("jojo.txt", "testencrypt.crypt");
+        ui->labelFileContent->setText("Fichier Chiffrés--> OK");
     }
 }
 
@@ -108,6 +109,7 @@ void MainWindow::onDecryptionButtonClicked()
         AesGestion aes;
         aes.LoadAESKeyFromFile("aes_random.bin");
         aes.DecryptFileAES256("testencrypt.crypt", "testdecrypt.crypt");
+        ui->labelFileContent->setText("Fichier Déchiffrés--> OK");
     }
 }
 
