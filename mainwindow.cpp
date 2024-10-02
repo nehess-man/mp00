@@ -101,11 +101,14 @@ void MainWindow::onEncryptionButtonClicked()
 
 void MainWindow::onDecryptionButtonClicked()
 {
-    AesGestion aes;
-    aes.LoadAESKeyFromFile("aes_random.bin");
-    aes.DecryptFileAES256("testencrypt.crypt", "testdecrypt.txt");
-
-    //ouvrirFichier();
+    ouvrirFichier();
+    QString myOpenFile = QFileDialog::getOpenFileName(this, tr("Choisir un fichier à chiffrer"), tr("C:\\"), tr("Text Files (*.*)"));
+    if (!myOpenFile.isEmpty())
+    {
+        AesGestion aes;
+        aes.LoadAESKeyFromFile("aes_random.bin");
+        aes.DecryptFileAES256("testencrypt.crypt", "testdecrypt.crypt");
+    }
 }
 
 void MainWindow::onRetourButtonClicked()
