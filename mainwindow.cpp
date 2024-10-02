@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnDchiff, &QPushButton::clicked, this, &MainWindow::onDecryptionButtonClicked);
 
     connect(ui->btnRetour, &QPushButton::clicked, this, &MainWindow::onRetourButtonClicked);
+    std::cout << "Test constructeur" << std::endl;
 }
 
 MainWindow::~MainWindow()
@@ -43,6 +44,7 @@ void MainWindow::handleSHAButtonClicked()
     ui->btnRetour->show();
     ui->btnAES->setEnabled(false);
     ui->btnRSA->setEnabled(false);
+    std::cout << "Test handle SHA ButtonClicked" << std::endl;
 }
 
 void MainWindow::handleAESButtonClicked()
@@ -65,40 +67,45 @@ void MainWindow::handleRSAButtonClicked()
 
 void MainWindow::onHashButtonClicked()
 {
+    std::cout << "Test" << std::endl;
     QString myOpenFile = QFileDialog::getOpenFileName(this, tr("Choisir un fichier à hacher"), tr("C:\\"), tr("Text Files (*.*)"));
-
     if (!myOpenFile.isEmpty())
     {
         QByteArray ba = myOpenFile.toLocal8Bit();
         const char *filePath = ba.data();
         HashGestion monSha;
-        /*std::cout<< monSha.CalculateFileSHA256(filePath) << std::endl;*/
         QString hashResult = QString::fromStdString(monSha.CalculateFileSHA256(filePath));
         ui->labelFileContent->setText("SHA-256: " + hashResult);
+        QFile file("hash_result.txt");
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+        {
+            QTextStream out(&file);
+            out << "SHA-256: " << hashResult << "\n";
+            file.close();
+        }
     }
 }
 
 void MainWindow::onEncryptionButtonClicked()
 {
-    /*ouvrirFichier();*/
-     QString myOpenFile = QFileDialog::getOpenFileName(this, tr("Choisir un fichier à chiffrer"), tr("C:\\"), tr("Text Files (*.*)"));
+    ouvrirFichier();
+    QString myOpenFile = QFileDialog::getOpenFileName(this, tr("Choisir un fichier à chiffrer"), tr("C:\\"), tr("Text Files (*.*)"));
     if (!myOpenFile.isEmpty())
     {
-        QByteArray ba = myOpenFile.toLocal8Bit();
-        const char *filePath = ba.data();
-        const char *inputFile = ba.data();
-        const char *outputFile = ba.data();
-        AesGestion monAes;
-        monAes.GenerateAESKey();
-        monAes.SaveAESKeyToFile(filePath);
-        monAes.LoadAESKeyFromFile(filePath);
-
+        AesGestion aes;
+        aes.GenerateAESKey();
+        aes.SaveAESKeyToFile("aes_random.bin");
+        aes.EncryptFileAES256("test.txt", "testencrypt.crypt");
     }
 }
 
 void MainWindow::onDecryptionButtonClicked()
 {
-    ouvrirFichier();
+    AesGestion aes;
+    aes.LoadAESKeyFromFile("aes_random.bin");
+    aes.DecryptFileAES256("testencrypt.crypt", "testdecrypt.txt");
+
+    //ouvrirFichier();
 }
 
 void MainWindow::onRetourButtonClicked()

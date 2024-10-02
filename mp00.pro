@@ -28,3 +28,6 @@ DEPENDPATH += $$PWD/'../../../Sequence1/ActiviteCIEL2/Chiffrement Act05/cryptopp
 
 win32:!win32-g++: PRE_TARGETDEPS += $$PWD/'../../../Sequence1/ActiviteCIEL2/Chiffrement Act05/cryptopp/x64/Output/Release/cryptlib.lib'
 else:win32-g++: PRE_TARGETDEPS += $$PWD/'../../../Sequence1/ActiviteCIEL2/Chiffrement Act05/cryptopp/x64/Output/Release/libcryptlib.a'
+
+#DISTFILES += \
+#    qt.jpg
