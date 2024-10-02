@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "HashGestion.h"
-#include "AesGestion."
+#include "AesGestion.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -72,7 +72,9 @@ void MainWindow::onHashButtonClicked()
         QByteArray ba = myOpenFile.toLocal8Bit();
         const char *filePath = ba.data();
         HashGestion monSha;
-        std::cout<< monSha.CalculateFileSHA256(filePath) << std::endl;
+        /*std::cout<< monSha.CalculateFileSHA256(filePath) << std::endl;*/
+        QString hashResult = QString::fromStdString(monSha.CalculateFileSHA256(filePath));
+        ui->labelFileContent->setText("SHA-256: " + hashResult);
     }
 }
 
@@ -84,8 +86,13 @@ void MainWindow::onEncryptionButtonClicked()
     {
         QByteArray ba = myOpenFile.toLocal8Bit();
         const char *filePath = ba.data();
+        const char *inputFile = ba.data();
+        const char *outputFile = ba.data();
         AesGestion monAes;
-        std::cout<< monAes.encrypt_aes256_to_base64(filePath) << std::endl;
+        monAes.GenerateAESKey();
+        monAes.SaveAESKeyToFile(filePath);
+        monAes.LoadAESKeyFromFile(filePath);
+
     }
 }
 
